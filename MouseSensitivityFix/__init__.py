@@ -1,12 +1,9 @@
 """
-Mouse Sensitivity Fix for Borderlands 1.
+Mouse Sensitivity Fix for Borderlands 1
 
-Scales the raw per-frame mouse deltas (aMouseX / aMouseY) before the game applies its own
-MouseSensitivity. This lets you go below the in-game slider's minimum (so you can run a high DPI
-for comfortable menus), and set horizontal / vertical sensitivity independently.
+Scales mouse input before the game applies its own
+MouseSensitivity. This lets you go below the in-game slider's minimum.
 
-Because it is a multiplier on top of the game's own setting, it composes with the in-game slider
-and with mods that temporarily change MouseSensitivity (e.g. ADS sensitivity mods).
 """
 
 import argparse
@@ -35,8 +32,8 @@ SensitivityPercent = SliderOption(
     1,
     True,
     description=(
-        "Multiplier applied to all mouse look, in percent, on top of the in-game sensitivity"
-        " slider. 100 = unchanged. Lower this to go below the game's minimum."
+        "Percentage multiplier applied to all mouse look on top of in-game sensitivity"
+        " slider. 100 = unchanged."
     ),
 )
 VerticalPercent = SliderOption(
@@ -47,15 +44,14 @@ VerticalPercent = SliderOption(
     1,
     True,
     description=(
-        "Vertical sensitivity relative to horizontal, in percent. 100 = identical X and Y."
+        "Vertical axis sensitivity in percent. 100 = identical X and Y."
     ),
 )
 DisableSmoothing = BoolOption(
     "Disable Mouse Smoothing",
     False,
     description=(
-        "Turns off Unreal's built-in mouse smoothing (bEnableMouseSmoothing), which averages"
-        " movement across frames and can feel floaty."
+        "Turns off bEnableMouseSmoothing"
     ),
 )
 
@@ -93,7 +89,7 @@ def on_enable() -> None:
     hook_calls = 0
     if hooked_func is None:
         logging.error(
-            "[MouseSensitivityFix] Could not find a PlayerInput function to hook - the mod will"
+            "[MouseSensitivityFix] Could not find PlayerInput function to hook. Mod will"
             " have no effect. Run 'mousefix' in the console for details.",
         )
         return
@@ -114,7 +110,7 @@ def on_disable() -> None:
         original_smoothing = None
 
 
-@command("mousefix", description="Print Mouse Sensitivity Fix diagnostics.")
+@command("mousefix", description="Print mouse fix diagnostics")
 def mousefix_cmd(_args: argparse.Namespace) -> None:
     print(f"Hooked function: {hooked_func}  (calls so far: {hook_calls})")
     for name in HOOK_CANDIDATES:
@@ -131,7 +127,7 @@ def mousefix_cmd(_args: argparse.Namespace) -> None:
 
     pc = get_pc(possibly_loading=True)
     if pc is None or pc.PlayerInput is None:
-        print("No player controller / PlayerInput right now (load into the game first).")
+        print("No player controller / PlayerInput right now (load into game first)")
         return
     pi = pc.PlayerInput
     print(f"PlayerInput class: {pi.Class.Name}")
