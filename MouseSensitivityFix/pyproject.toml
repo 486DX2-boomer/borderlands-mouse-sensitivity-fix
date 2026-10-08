@@ -1,0 +1,10 @@
+[project]
+name = "MouseSensitivityFix"
+version = "1.0.0"
+description = "Scale mouse look below the in-game minimum (for high-DPI mice) and set separate horizontal/vertical sensitivity. Run 'mousefix' in the console for diagnostics."
+
+[tool.sdkmod]
+name = "Mouse Sensitivity Fix"
+mod_type = "Standard"
+supported_games = ["BL1"]
+coop_support = "ClientSide"
